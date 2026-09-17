@@ -1,0 +1,153 @@
+.footer {
+  background-color: var(--color-navy-dark);
+  color: var(--color-white);
+  border-top: 1px solid rgba(216, 155, 43, 0.25);
+}
+
+.footerMain {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 80px;
+  padding: 70px 30px 60px;
+}
+
+.company {
+  max-width: 400px;
+}
+
+.logo {
+  display: inline-block;
+  color: var(--color-white);
+  font-size: 2rem;
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+}
+
+.logo::after {
+  content: "";
+  display: block;
+  width: 35px;
+  height: 3px;
+  margin-top: 6px;
+  background-color: var(--color-amber);
+}
+
+.description {
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+.title {
+  margin: 0 0 22px;
+  color: var(--color-white);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.links nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.links a,
+.socialLinks a {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.links a:hover,
+.socialLinks a:hover {
+  color: var(--color-amber);
+  transform: translateX(-4px);
+}
+
+.socialLinks {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.socialLinks a{
+    font-size: 1.6rem;
+}
+
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 22px 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footerBottom p,
+.footerBottom span {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.9rem;
+}
+
+.footerBottom span {
+  color: rgba(216, 155, 43, 0.7);
+}
+
+
+
+/* responsive mode */
+
+@media (max-width: 768px) {
+  .footerMain {
+    grid-template-columns: 1fr;
+    gap: 45px;
+    padding: 55px 20px 45px;
+  }
+
+  .company {
+    max-width: 100%;
+  }
+
+  .logo {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    margin-top: 18px;
+    font-size: 0.9rem;
+  }
+
+  .title {
+    margin-bottom: 16px;
+  }
+
+  .links nav,
+  .socialLinks {
+    gap: 10px;
+  }
+
+  .links a {
+    font-size: 0.9rem;
+  }
+  .socialLinks a{
+    font-size: 1.4rem;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 18px 20px;
+  }
+
+  .footerBottom p,
+  .footerBottom span {
+    font-size: 0.75rem;
+  }
+}

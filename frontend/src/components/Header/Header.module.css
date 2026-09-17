@@ -1,0 +1,175 @@
+.header {
+  position: relative;
+
+  width: 100%;
+
+  z-index: 100;
+
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.header > div {
+  min-height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 35px; 
+}
+
+
+/* Home */
+
+.headerHome {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  background-color: rgba(6, 21, 34, 0.25);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* Inner pages */
+
+.headerInner {
+  background-color: var(--color-navy-dark);
+
+  border-bottom: 2px solid var(--color-amber);
+
+  box-shadow: 0 4px 20px rgba(6, 21, 34, 0.12);
+}
+
+
+/* Logo */
+
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.logoText {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* .logoAccent {
+  width: 30px;
+  height: 3px;
+
+  margin-top: 8px;
+
+  background-color: var(--color-amber);
+
+  border-radius: 2px;
+} */
+
+
+/* Navigation */
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  position: relative;
+
+  padding: 8px 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  text-decoration: none;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  transition:
+    color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--color-white);
+}
+
+.navLink::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+
+  width: 0;
+  height: 2px;
+
+  background-color: var(--color-amber);
+
+  transition: width 0.25s ease;
+}
+
+.navLink:hover::after,
+.navLink.active::after {
+  width: 100%;
+}
+
+.navLink.active {
+  color: var(--color-white);
+}
+
+
+
+
+/* responsive mode */
+
+@media (max-width: 768px) {
+  .header > div {
+    min-height: 72px;
+    padding: 0 10px;
+  }
+
+  .navigation {
+    gap: 18px;
+  }
+
+  .navLink {
+    font-size: 0.85rem;
+  }
+
+  .logoText {
+    font-size: 1.3rem;
+  }
+
+  .logoAccent {
+    width: 24px;
+    height: 2px;
+
+    margin-top: 6px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .header > div {
+    width: min(100% - 32px, 1200px);
+  }
+
+  .navigation {
+    gap: 14px;
+  }
+
+  .navLink {
+    font-size: 0.78rem;
+  }
+}
