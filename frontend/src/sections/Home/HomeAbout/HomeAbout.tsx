@@ -1,10 +1,59 @@
 import { Link } from 'react-router-dom';
-
-import heroImage from '../../../assets/hero.png';
+import { useState, useEffect } from 'react';
 
 import styles from './HomeAbout.module.css';
 
+import { getAbout } from '../../../services/aboutService';
+import type { About } from '../../../types/About/About';
+
+import Loading from '../../../components/Loading/Loading';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage';
+
+import SectionTitle from '../../../components/SectionTitle/SectionTitle';
+
+
 function HomeAbout() {
+  const [aboutData, setAboutData] = useState<About | null>(null);
+  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+
+  useEffect(() => {
+      async function fetchAbout() {
+        try {
+          const data = await getAbout();
+  
+          setAboutData(data);
+        } catch (err) {
+          console.error(err);
+  
+          setError(
+            'خطا در دریافت اطلاعات درباره ما.'
+          );
+        } finally {
+          setLoading(false);
+        }
+      }
+  
+
+      fetchAbout();
+    }, []);
+
+
+if (loading) {
+  return <Loading />;
+}
+
+
+if (error) {
+  return (
+    <ErrorMessage
+      message={error}
+    />
+  );
+}
+
   return (
     <section className={styles.about}>
         <div className="container">
@@ -14,38 +63,33 @@ function HomeAbout() {
                 درباره ریواکس
               </span>
 
-              <h2>
-                همراه مطمئن صنعت
-              </h2>
+              <SectionTitle dark={true} title={aboutData?.intro_title || ''} />
 
               <p>
-                ریواکس با تمرکز بر تولید و ارائه روغن‌ها و گریس‌های
-                صنعتی، در مسیر تأمین روانکارهای باکیفیت و قابل اعتماد
-                برای صنایع مختلف فعالیت می‌کند.
+                {aboutData?.short_intro}
               </p>
 
-              <p>
-                کیفیت محصولات، شناخت نیاز مشتری و نگاه بلندمدت به
-                همکاری، از اصولی است که ریواکس بر پایه آن فعالیت می‌کند.
-              </p>
 
               <Link
                 to="/about"
                 className={styles.aboutButton}
               >
-                بیشتر درباره ما
+                بیشتر    
               </Link>
             </div>
 
+            {aboutData?.image && (
             <div className={styles.aboutImageWrapper}>
               <img
-                src={heroImage}
-                alt="ریواکس - تولید روغن و گریس صنعتی"
+                src={aboutData?.image}
+                alt= { aboutData?.intro_title || "تولید روغن و گریس صنعتی" } 
                 className={styles.aboutImage}
               />
 
               <div className={styles.aboutAccent} />
             </div>
+            )}
+
           </div>
         </div>
       </section>

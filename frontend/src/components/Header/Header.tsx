@@ -1,12 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import styles from './Header.module.css';
+import { useCompany } from '../../contexts/Company';
 
 
 function Header() {
+  const { company, loading } = useCompany();
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
+  
 
   return (
     <header
@@ -16,7 +19,18 @@ function Header() {
     >
       <div className="container">
         <Link to="/" className={styles.logo}>
-          <span className={styles.logoText}>ریواکس</span>
+          {!loading && company?.logo ? (
+            <img
+              src={company.logo}
+              alt={company.name}
+              className={styles.logoImage}
+            />
+          ) : (
+            <span className={styles.logoText}>
+              {company?.name ?? 'ریواکس'}
+            </span>
+          )}
+
           <span className={styles.logoAccent} />
         </Link>
 

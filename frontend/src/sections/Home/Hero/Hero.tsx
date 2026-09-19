@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
 
-import heroImage from '../../../assets/hero.png';
-
+import { useCompany } from '../../../contexts/Company';
 import styles from './Hero.module.css';
 
 
 function Hero(){
+
+  const { company } = useCompany();
+
     return(
         <section
         className={styles.hero}
-        style={{ backgroundImage: `url(${heroImage})` }}
+        style={{ backgroundImage: `url(${company?.hero_image})` }}
       >
         <div className={styles.overlay} />
 

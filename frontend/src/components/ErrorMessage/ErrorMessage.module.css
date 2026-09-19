@@ -1,0 +1,53 @@
+ .error {
+
+  min-height: 70vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 16px;
+
+  text-align: center;
+
+}
+
+.icon {
+
+  width: 47px;
+
+  height: 47px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 2px solid var(--color-amber);
+
+  border-radius: 50%;
+
+  color: var(--color-amber);
+
+  font-size: 1.5rem;
+
+  font-weight: 700;
+
+}
+
+.message {
+
+  margin: 0;
+
+  color: var(--color-muted);
+
+  font-size: 1.1rem;
+
+  line-height: 1.8;
+
+}

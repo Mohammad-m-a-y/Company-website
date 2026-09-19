@@ -20,8 +20,7 @@ class CompanyAdmin(admin.ModelAdmin):
                     "name",
                     "site_slogan",
                     "logo",
-                    "description",
-                    "about",
+                    "hero_image",
                 )
             },
         ),

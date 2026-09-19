@@ -3,8 +3,12 @@ import { useState } from 'react';
 import { sendContactMessage } from '../../services/contactService';
 import Modal from '../../components/Modal/Modal';
 import type { ContactFormData } from '../../types/Contact';
+import { useCompany } from '../../contexts/Company';
+
 
 function Contact() {
+
+  const { company } = useCompany();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -154,7 +158,7 @@ function Contact() {
                     </span>
 
                     <span className={styles.methodValue}>
-                      ۰۲۱-۱۲۳۴۵۶۷۸
+                      {company?.phone}
                     </span>
                   </div>
                 </a>
@@ -174,7 +178,7 @@ function Contact() {
                     </span>
 
                     <span className={styles.methodValue}>
-                      ۰۹۱۲-۱۲۳۴۵۶۷
+                      {company?.mobile}
                     </span>
                   </div>
                 </a>

@@ -1,28 +1,89 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import styles from './About.module.css';
-import image from '../../assets/hero.png';
+
+import { getAboutDetail } from '../../services/aboutService';
+
+import type { AboutDetail } from '../../types/About/AboutDetail';
+
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
+import HeroTitle from '../../components/HeroTitle/HeroTitle';
+
+import Loading from '../../components/Loading/Loading';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+
 
 function About() {
+
+  const [aboutData, setAboutData] = useState<AboutDetail | null>(null);
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAbout() {
+      try {
+        const data = await getAboutDetail();
+
+        setAboutData(data);
+      } catch (err) {
+        console.error(err);
+
+        setError(
+          'خطا در دریافت اطلاعات درباره ما.'
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+  
+
+    fetchAbout();
+  }, []);
+
+
+if (loading) {
+  return <Loading />;
+}
+
+
+if (error) {
+  return (
+    <ErrorMessage
+      message={error}
+    />
+  );
+}
+
+  
   return (
     <>
       <section className={styles.aboutHero}>
+        <div
+          className={styles.heroImage}
+          style={{
+            backgroundImage: aboutData?.about.hero_image
+              ? `url(${aboutData.about.hero_image})`
+              : undefined,
+          }}
+        />
+
+        <div className={styles.heroOverlay} />
+
         <div className="container">
           <div className={styles.heroContent}>
-
             <span className={styles.eyebrow}>
               درباره ریواکس
             </span>
 
-            <h1 className={styles.title}>
-              همراه مطمئن
-              <br />
-              <span>صنعت</span>
-            </h1>
+            <HeroTitle title={aboutData?.about.hero_title ?? ''} />
 
             <p className={styles.description}>
-              آشنایی با ریواکس، رویکرد ما و مسیری که برای
-              ارائه روانکارهای باکیفیت و قابل اعتماد دنبال می‌کنیم.
+              {aboutData?.about?.hero_description}
             </p>
-
           </div>
         </div>
       </section>
@@ -31,15 +92,18 @@ function About() {
         <div className="container">
           <div className={styles.introductionGrid}>
 
-            <div className={styles.imageWrapper}>
-              <img
-                src={image}
-                alt="محیط صنعتی"
-                className={styles.image}
-              />
+            {aboutData?.about?.image && (
+              <div className={styles.imageWrapper}>
 
-              <div className={styles.imageAccent} />
-            </div>
+                <img
+                  src={aboutData?.about.image}
+                  alt={aboutData?.about.hero_title || "درباره ما"}
+                  className={styles.image}
+                />
+
+                <div className={styles.imageAccent} />
+              </div>
+            )}
 
 
             <div className={styles.content}>
@@ -48,24 +112,12 @@ function About() {
                 معرفی ریواکس
               </span>
 
-              <h2>
-                تمرکز بر کیفیت،
-                <br />
-                <span>اعتماد در همکاری</span>
-              </h2>
+              <SectionTitle dark={true} title={aboutData?.about.intro_title ?? ''} />
 
               <p>
-                ریواکس با تمرکز بر تولید و ارائه روغن‌ها و
-                گریس‌های صنعتی، در مسیر تأمین روانکارهای
-                باکیفیت و قابل اعتماد برای صنایع مختلف
-                فعالیت می‌کند.
+                {aboutData?.about?.intro}
               </p>
 
-              <p>
-                شناخت نیاز مشتری، توجه به کیفیت محصولات و
-                نگاه بلندمدت به همکاری، از اصولی است که
-                ریواکس بر پایه آن فعالیت می‌کند.
-              </p>
 
             </div>
 
@@ -75,78 +127,61 @@ function About() {
 
       <section className={styles.values}>
         <div className="container">
-          <div className={styles.valuesHeader}>
-            <span className={styles.eyebrow}>
-              ارزش‌های ما
-            </span>
+          <div className={styles.valuesBox}>
 
-            <h2 className={styles.valuesTitle}>
-              اصولی که بر پایه آن
-              <br />
-              <span>حرکت می‌کنیم</span>
-            </h2>
-          </div>
+            <div className={styles.valuesHeader}>
+              <span className={styles.eyebrow}>
+                ارزش‌های ما
+              </span>
 
-          <div className={styles.valuesGrid}>
-            <article className={styles.valueItem}>
-              <span className={styles.valueNumber}>01</span>
+              <SectionTitle
+                dark={true}
+                title="اصولی که بر پایه آن
+حرکت می‌کنیم"
+              />
+            </div>
 
-              <div className={styles.valueContent}>
-                <h3>کیفیت</h3>
+            <div className={styles.valuesGrid}>
 
-                <p>
-                  کیفیت محصولات و توجه به عملکرد، یکی از
-                  اصول اصلی ریواکس در مسیر تولید و ارائه
-                  روانکارهای صنعتی است.
-                </p>
-              </div>
-            </article>
+              {aboutData?.values.map((value, index) => (
+                <article
+                  key={value.id}
+                  className={styles.valueItem}
+                >
+                  <span className={styles.valueNumber}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
 
-            <article className={styles.valueItem}>
-              <span className={styles.valueNumber}>02</span>
+                  <div className={styles.valueContent}>
+                    <h3>
+                      {value.title}
+                    </h3>
 
-              <div className={styles.valueContent}>
-                <h3>اعتماد</h3>
+                    <p>
+                      {value.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
 
-                <p>
-                  شفافیت، تعهد و مسئولیت‌پذیری را پایه‌ای
-                  برای ایجاد روابط حرفه‌ای و قابل اعتماد
-                  با مشتریان خود می‌دانیم.
-                </p>
-              </div>
-            </article>
+            </div>
 
-            <article className={styles.valueItem}>
-              <span className={styles.valueNumber}>03</span>
-
-              <div className={styles.valueContent}>
-                <h3>همراهی بلندمدت</h3>
-
-                <p>
-                  هدف ما تنها ارائه محصول نیست؛ بلکه ایجاد
-                  همکاری‌های پایدار و همراهی با مشتریان
-                  در مسیر رشد و توسعه آن‌هاست.
-                </p>
-              </div>
-            </article>
           </div>
         </div>
       </section>
 
       <section className={styles.whatWeDo}>
-        <div className="container">
+        <div className={styles.container}>
           <div className={styles.whatWeDoHeader}>
-            <div>
-              <span className={styles.eyebrow}>
-                حوزه فعالیت
-              </span>
+            <span className={styles.eyebrow}>
+              حوزه فعالیت
+            </span>
 
-              <h2 className={styles.whatWeDoTitle}>
-                آنچه در ریواکس
-                <br />
-                <span>انجام می‌دهیم</span>
-              </h2>
-            </div>
+            <SectionTitle
+              dark={false}
+              title={`آنچه در ریواکس
+            انجام می‌دهیم`}
+            />
 
             <p className={styles.whatWeDoDescription}>
               ریواکس با تمرکز بر تولید روانکارهای صنعتی،
@@ -154,52 +189,68 @@ function About() {
               مختلف ارائه دهد.
             </p>
           </div>
-
           <div className={styles.servicesList}>
-            <article className={styles.serviceItem}>
-              <span className={styles.serviceNumber}>01</span>
+            <div className={styles.servicesList}>
 
-              <div className={styles.serviceContent}>
-                <h3>تولید روغن‌های صنعتی</h3>
+              {aboutData?.services.map((service, index) => (
+                <article
+                  key={service.id}
+                  className={styles.serviceItem}
+                >
+                  <span className={styles.serviceNumber}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
 
-                <p>
-                  ارائه روغن‌های صنعتی با تمرکز بر عملکرد،
-                  پایداری و نیازهای مختلف تجهیزات و ماشین‌آلات.
-                </p>
-              </div>
+                  <div className={styles.serviceContent}>
+                    <h3>
+                      {service.title}
+                    </h3>
 
-              <span className={styles.serviceArrow}>←</span>
-            </article>
+                    <p>
+                      {service.description}
+                    </p>
+                  </div>
 
-            <article className={styles.serviceItem}>
-              <span className={styles.serviceNumber}>02</span>
+                  <span className={styles.serviceArrow}>
+                    ←
+                  </span>
+                </article>
+              ))}
 
-              <div className={styles.serviceContent}>
-                <h3>تولید گریس‌های صنعتی</h3>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                <p>
-                  تولید گریس‌های صنعتی برای کاربردهای مختلف
-                  با هدف کاهش اصطکاک و افزایش عمر تجهیزات.
-                </p>
-              </div>
+      <section className={styles.aboutCta}>
+        <div className="container">
+          <div className={styles.ctaBox}>
+            <div className={styles.ctaContent}>
+              <span className={styles.eyebrow}>
+                آماده همکاری هستید؟
+              </span>
 
-              <span className={styles.serviceArrow}>←</span>
-            </article>
+              <h2 className={styles.ctaTitle}>
+                بیایید مسیر همکاری را
+                <br />
+                <span>با هم آغاز کنیم</span>
+              </h2>
 
-            <article className={styles.serviceItem}>
-              <span className={styles.serviceNumber}>03</span>
+              <p className={styles.ctaDescription}>
+                برای دریافت اطلاعات بیشتر درباره محصولات و
+                فعالیت‌های ریواکس، با ما در ارتباط باشید.
+              </p>
+            </div>
 
-              <div className={styles.serviceContent}>
-                <h3>راهکارهای روانکاری</h3>
-
-                <p>
-                  ارائه راهکارهای مناسب روانکاری با توجه به
-                  شرایط کاری و نیازهای هر مجموعه صنعتی.
-                </p>
-              </div>
-
-              <span className={styles.serviceArrow}>←</span>
-            </article>
+            <div className={styles.ctaAction}>
+              <Link
+                to="/contact"
+                className={styles.ctaButton}
+              >
+                ارتباط با ریواکس
+                <span>←</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

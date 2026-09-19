@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from core.utils.file import DynamicPath
+ 
 
 
 
@@ -9,9 +10,12 @@ class Company(models.Model):
     site_slogan = models.CharField(max_length=200,blank=True,)
 
     logo = models.ImageField(upload_to=DynamicPath("logo"), blank=True, null=True)
-    description = models.TextField(blank=True)
-    about = models.TextField(blank=True)
 
+    hero_image = models.ImageField(
+    upload_to=DynamicPath("company/hero"),
+    blank=True,
+    null=True,
+)
     phone = models.CharField(max_length=50, blank=True)
     mobile = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)

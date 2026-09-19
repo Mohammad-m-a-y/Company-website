@@ -5,6 +5,10 @@ import type { Product } from '../../../types/Product';
 
 import styles from './Products.module.css';
 
+import Loading from '../../../components/Loading/Loading';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage';
+
+
 
 function Products() {
 
@@ -75,12 +79,18 @@ function Products() {
 
 
     if (loading) {
-        return <p>در حال دریافت محصولات...</p>;
+        return <Loading />;
     }
 
+
     if (error) {
-        return <p>{error}</p>;
+        return (
+            <ErrorMessage
+                message={error}
+            />
+        );
     }
+
 
     if (products.length === 0) {
         return (

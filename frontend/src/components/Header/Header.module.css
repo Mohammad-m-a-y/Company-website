@@ -10,14 +10,14 @@
     box-shadow 0.3s ease;
 }
 
-.header > div {
+.header>div {
   min-height: 82px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 35px; 
+  padding: 0 35px;
 }
 
 
@@ -134,7 +134,7 @@
 /* responsive mode */
 
 @media (max-width: 768px) {
-  .header > div {
+  .header>div {
     min-height: 72px;
     padding: 0 10px;
   }
@@ -145,6 +145,13 @@
 
   .navLink {
     font-size: 0.85rem;
+  }
+
+  .logoImage {
+    display: block;
+    width: auto;
+    height: 42px;
+    object-fit: contain;
   }
 
   .logoText {
@@ -161,7 +168,7 @@
 
 
 @media (max-width: 480px) {
-  .header > div {
+  .header>div {
     width: min(100% - 32px, 1200px);
   }
 

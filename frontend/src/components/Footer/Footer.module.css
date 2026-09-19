@@ -40,6 +40,27 @@
   line-height: 2;
 }
 
+
+.address {
+  margin-top: 22px;
+}
+
+.addressLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-amber);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.address p {
+  max-width: 380px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
 .title {
   margin: 0 0 22px;
   color: var(--color-white);
@@ -121,6 +142,18 @@
   .description {
     margin-top: 18px;
     font-size: 0.9rem;
+  }
+
+  .address {
+    margin-top: 18px;
+  }
+
+  .addressLabel {
+    font-size: 0.75rem;
+  }
+
+  .address p {
+    font-size: 0.8rem;
   }
 
   .title {
